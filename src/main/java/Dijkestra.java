@@ -1,6 +1,6 @@
 public class Dijkestra {
     private int[][] graph;
-    int V;
+    private int V;
     Dijkestra(int[][] graph, int V){
         this.graph = graph;
         this.V = V;
@@ -9,17 +9,25 @@ public class Dijkestra {
         boolean sptSet[] = new boolean[V];
         for (int i = 0; i < V; i++) {
             dist[i] = Integer.MAX_VALUE;
+            parents[i] = i;
             sptSet[i] = false;
         }
 
         dist[src] = 0;
-        parents[src] = src;
+//        parents[src] = src;
 
         for (int i = 0; i < V; i++) {
             int u = minDistance(dist, sptSet);
+            if (u == -1)
+                return;
             sptSet[u] = true;
 
             for (int j = 0; j < V; j++) {
+                // (1)Update dist[j] only if is not in sptSet,
+                // (2)there is an edge from u to v, (3)dist[u] is not equal to INF
+                // as it will lead to overflow error
+                // and (4)total weight of path from src to v through u is
+                // smaller than current value of dist[v]
                 if (!sptSet[j] && graph[u][j] != 0
                         && dist[u] != Integer.MAX_VALUE
                         && dist[u] + graph[u][j] < dist[j]) {

@@ -52,6 +52,10 @@ public class GraphMatrix {
     public int Size() {
         return this.V;
     }
+    
+    public int getEdges() {
+        return this.E;
+    }
 
     public int[][] getGraph(){
         return graph;
